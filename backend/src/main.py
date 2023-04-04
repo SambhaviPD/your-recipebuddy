@@ -1,6 +1,5 @@
 from enum import Enum
-
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Query
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -28,9 +27,9 @@ async def get_recipes_by_cuisine(cuisine: Cuisine):
     pass
 
 
-@app.get("/recipes/{ingredients}")
-async def get_recipes_by_ingredients(ingredients: list[str]):
-    pass
+@app.get("/recipes/")
+async def get_recipes_by_ingredients(ingredients: list[str] = Query(...), q: int = 1):
+    return {"message" : "Here are some recipes by ingredients!"}
 
 
 @app.get("/recipes/{mealcourse}")
