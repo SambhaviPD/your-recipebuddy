@@ -1,6 +1,8 @@
-from enum import Enum
+import requests
 
+from enum import Enum
 from functools import lru_cache
+
 from fastapi import Depends, FastAPI
 from typing_extensions import Annotated
 
@@ -25,9 +27,10 @@ async def home():
 Use Spoonacular API to fetch one random recipe
 """
 def get_spoonacular_random_recipe(settings):
-    randome_recipe_api = settings.spoonacular_base_url + RANDOM_RECIPE_QUERY_KEYWORD \
+    random_recipe_api = settings.spoonacular_base_url + RANDOM_RECIPE_QUERY_KEYWORD \
         + API_KEY_QUERY_KEYWORD + settings.spoonacular_api_key
-    print(randome_recipe_api)
+    response = requests.get(random_recipe_api)
+    return response.json()
 
 
 """
@@ -40,10 +43,11 @@ def get_gpt4_random_recipe():
 async def get_recipes_random(apiChoice: str, settings: Annotated[config.Settings, \
     Depends(get_settings)]):
     if settings.default_backend.upper() == apiChoice.upper():
-        print('Base URL: ', settings.spoonacular_base_url)
-        get_spoonacular_random_recipe(settings)
+        recipe = get_spoonacular_random_recipe(settings)
     else:
         get_gpt4_random_recipe()
+
+    return recipe
 
 
 class Cuisine(str, Enum):
