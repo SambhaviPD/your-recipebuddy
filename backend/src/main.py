@@ -28,22 +28,22 @@ async def get_recipes_by_cuisine(cuisine: Cuisine):
     pass
 
 
-@app.get("/recipes/{ingredients}")
-async def get_recipes_by_ingredients(ingredients: list[str]):
-    pass
+# @app.get("/recipes/{ingredients}")
+# async def get_recipes_by_ingredients(ingredients: list[str]):
+#     pass
 
 
 @app.get("/recipes/{mealcourse}")
 async def get_recipes_by_mealcourse(mealcourse: str):
-    pass
+    return {"message" : "Here are some recipes by meal course!"}
 
 
-@app.get("/recipes/{image}")
-async def get_recipes_by_image(image: UploadFile):
-    pass
+# @app.get("/recipes/{image}")
+# async def get_recipes_by_image(image: UploadFile):
+#     pass
 
 
-@app.get("/recipes/{images}")
-async def get_recipe_by_images(images: UploadFile):
-    pass
+# @app.get("/recipes/{images}")
+# async def get_recipe_by_images(images: UploadFile):
+#     pass
 
