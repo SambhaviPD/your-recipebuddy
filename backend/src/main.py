@@ -59,8 +59,8 @@ class Cuisine(str, Enum):
 
 
 @app.get("/recipes/{cuisine}")
-async def get_recipes_by_cuisine(cuisine: Cuisine):
-    pass
+async def get_recipes_by_cuisine(cuisine: str):
+    return {"message" : "Here you go..."}
 
 
 # @app.get("/recipes/{ingredients}")
@@ -70,7 +70,7 @@ async def get_recipes_by_cuisine(cuisine: Cuisine):
 
 @app.get("/recipes/{mealcourse}")
 async def get_recipes_by_mealcourse(mealcourse: str):
-    pass
+    return {"message" : "Here are some recipes by meal course!"}
 
 
 # @app.get("/recipes/{image}")
