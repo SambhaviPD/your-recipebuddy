@@ -12,25 +12,17 @@ async def home():
 
 @app.get("/recipes/surpriseme/")
 async def get_recipes_random():
-    pass
-
-
-class Cuisine(str, Enum):
-    chinese = "chinese"
-    continental = "continental"
-    indian = "indian"
-    sushi = "sushi"
-    thai = "thai"
+    return {"message" : "Were you surprised?"}
 
 
 @app.get("/recipes/{cuisine}")
-async def get_recipes_by_cuisine(cuisine: Cuisine):
-    pass
+async def get_recipes_by_cuisine(cuisine: str):
+    return {"message" : "Here you go..."}
 
 
-@app.get("/recipes/{ingredients}")
-async def get_recipes_by_ingredients(ingredients: list[str]):
-    pass
+# @app.get("/recipes/{ingredients}")
+# async def get_recipes_by_ingredients(ingredients: list[str]):
+#     pass
 
 
 @app.get("/recipes/{mealcourse}")
@@ -38,12 +30,12 @@ async def get_recipes_by_mealcourse(mealcourse: str):
     pass
 
 
-@app.get("/recipes/{image}")
-async def get_recipes_by_image(image: UploadFile):
-    pass
+# @app.get("/recipes/{image}")
+# async def get_recipes_by_image(image: UploadFile):
+#     pass
 
 
-@app.get("/recipes/{images}")
-async def get_recipe_by_images(images: UploadFile):
-    pass
+# @app.get("/recipes/{images}")
+# async def get_recipe_by_images(images: UploadFile):
+#     pass
 
