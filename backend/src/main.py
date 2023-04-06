@@ -6,7 +6,7 @@ from functools import lru_cache
 from fastapi import Depends, FastAPI
 from typing_extensions import Annotated
 
-from . import config
+from .config import Settings
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -17,7 +17,7 @@ RANDOM_RECIPE_QUERY_KEYWORD = "/random"
 
 @lru_cache()
 def get_settings():
-    return config.Settings()
+    return Settings()
 
 @app.get("/")
 async def home():
@@ -26,9 +26,9 @@ async def home():
 """
 Use Spoonacular API to fetch one random recipe
 """
-def get_spoonacular_random_recipe(settings):
-    random_recipe_api = settings.spoonacular_base_url + RANDOM_RECIPE_QUERY_KEYWORD \
-        + API_KEY_QUERY_KEYWORD + settings.spoonacular_api_key
+def get_spoonacular_random_recipe(base_url, api_key):
+    random_recipe_api = base_url + RANDOM_RECIPE_QUERY_KEYWORD \
+        + API_KEY_QUERY_KEYWORD + api_key
     response = requests.get(random_recipe_api)
     return response.json()
 
@@ -40,10 +40,11 @@ def get_gpt4_random_recipe():
     pass
 
 @app.get("/recipes/random")
-async def get_recipes_random(apiChoice: str, settings: Annotated[config.Settings, \
+async def get_recipes_random(apiChoice: str, settings: Annotated[Settings, \
     Depends(get_settings)]):
     if settings.default_backend.upper() == apiChoice.upper():
-        recipe = get_spoonacular_random_recipe(settings)
+        recipe = get_spoonacular_random_recipe(settings.spoonacular_base_url, \
+                                        settings.spoonacular_api_key)
     else:
         get_gpt4_random_recipe()
 
