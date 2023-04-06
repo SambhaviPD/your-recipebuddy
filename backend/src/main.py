@@ -27,7 +27,7 @@ async def get_recipes_by_cuisine(cuisine: str):
 
 @app.get("/recipes/{mealcourse}")
 async def get_recipes_by_mealcourse(mealcourse: str):
-    pass
+    return {"message" : "Here are some recipes by meal course!"}
 
 
 # @app.get("/recipes/{image}")
