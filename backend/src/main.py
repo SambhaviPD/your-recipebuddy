@@ -38,7 +38,7 @@ async def home():
 
 @app.get("/recipes/surpriseme/")
 async def get_recipes_random():
-    pass
+  return {"message" : "Were you surprised?"}
 
 # Valid Cuisines that an end user is allowed to send
 # If a cuisine  requested for is not in this list,
@@ -127,7 +127,7 @@ async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Set
 
 @app.get("/recipes/{mealcourse}")
 async def get_recipes_by_mealcourse(mealcourse: str):
-    pass
+    return {"message" : "Here are some recipes by meal course!"}
 
 
 # @app.get("/recipes/{image}")
