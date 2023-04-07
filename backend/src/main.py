@@ -24,14 +24,16 @@ class Cuisine(str, Enum):
     thai = "thai"
 
 
-@app.get("/recipes/{cuisine}")
-async def get_recipes_by_cuisine(cuisine: Cuisine):
-    pass
+# @app.get("/recipes/{cuisine}")
+# async def get_recipes_by_cuisine(cuisine: Cuisine):
+#     pass
 
 
 @app.get("/recipes/ingredients")
-async def get_recipes_by_ingredients(ingredients: List[str], number_of_recipes: int = 1):
-    return {"ingredients" : ingredients}
+async def get_recipes_by_ingredients(selected_ingredients: str  = Query(None), \
+                                     custom_ingredients: List[str] = Query(None), \
+                                     number_of_recipes: str = Query(None)):
+    return {"message" : f"Here are {number_of_recipes} recipes that uses {selected_ingredients} and {custom_ingredients}"}
 
 
 @app.get("/recipes/{mealcourse}")
