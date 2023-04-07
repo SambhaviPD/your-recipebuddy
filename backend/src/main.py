@@ -6,7 +6,9 @@ from functools import lru_cache
 from fastapi import Depends, FastAPI
 from typing_extensions import Annotated
 
-from .config import Settings
+from pydantic import BaseModel
+
+import config
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -17,7 +19,19 @@ RANDOM_RECIPE_QUERY_KEYWORD = "/random"
 
 @lru_cache()
 def get_settings():
-    return Settings()
+    return config.Settings()
+
+
+""""
+Class that corresponds to requests.model.Response
+Adding only 3 fields now. As need arises we can add
+more like content, headers, etc.,
+"""
+class ResponseModel(BaseModel):
+    success: bool
+    message: str
+    data: dict
+    
 
 @app.get("/")
 async def home():
@@ -27,10 +41,18 @@ async def home():
 Use Spoonacular API to fetch one random recipe
 """
 def get_spoonacular_random_recipe(base_url, api_key):
-    random_recipe_api = base_url + RANDOM_RECIPE_QUERY_KEYWORD \
-        + API_KEY_QUERY_KEYWORD + api_key
-    response = requests.get(random_recipe_api)
-    return response.json()
+    random_recipe_url = f"{base_url}{RANDOM_RECIPE_QUERY_KEYWORD}"
+    headers = {"X-API-KEY" : api_key}
+    
+    response = requests.get(random_recipe_url, headers=headers)
+    response_data = {
+        "response_data" : response.json()
+    }
+    final_response = ResponseModel(success=True, \
+                        message=f"Successfully returned a random recipe. Enjoy!", \
+                        data=response_data)
+    
+    return final_response
 
 
 """
@@ -39,12 +61,12 @@ Use GPT-4 API to fetch one random recipe
 def get_gpt4_random_recipe():
     pass
 
-@app.get("/recipes/random")
-async def get_recipes_random(apiChoice: str, settings: Annotated[Settings, \
+@app.get("/recipes/random", status_code=200, response_model=ResponseModel)
+async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
     Depends(get_settings)]):
-    if settings.default_backend.upper() == apiChoice.upper():
-        recipe = get_spoonacular_random_recipe(settings.spoonacular_base_url, \
-                                        settings.spoonacular_api_key)
+    if settings.default_backend.upper() == api_choice.upper():
+        recipe = get_spoonacular_random_recipe(base_url=settings.spoonacular_base_url, \
+                                    api_key=settings.spoonacular_api_key)
     else:
         get_gpt4_random_recipe()
 
