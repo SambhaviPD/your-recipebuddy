@@ -98,7 +98,10 @@ API to fetch recipes by cuisine
 @app.get("/recipes/cuisine", status_code=200, response_model=ResponseModel)
 async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Settings, \
         Depends(get_settings)], input_cuisine: str, number_of_recipes: int = 1):
+    
+    # Fetching enum values to a list
     cuisines = [cuisine.value for cuisine in Cuisine]
+    # Check if cuisine input is present in the list
     if input_cuisine.capitalize() in cuisines:
         if settings.default_backend.upper() == api_choice.upper():
             recipes = get_spoonacular_recipes_by_cuisine(base_url=settings.spoonacular_base_url, \
@@ -107,6 +110,7 @@ async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Set
             return recipes
         else:
             recipes = get_gpt4_recipes_by_cuisine()
+    # Throw an error since cuisine input is not present in the list
     else:
         error_response = ResponseModel(success=False, \
                     message=f"Sorry, no recipes of {input_cuisine} were found",
