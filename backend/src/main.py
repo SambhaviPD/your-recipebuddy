@@ -1,4 +1,6 @@
 from enum import Enum
+from typing import List
+
 from fastapi import FastAPI, UploadFile, Query
 
 app = FastAPI(title="Recipe Buddy")
@@ -27,9 +29,9 @@ async def get_recipes_by_cuisine(cuisine: Cuisine):
     pass
 
 
-@app.get("/recipes/")
-async def get_recipes_by_ingredients(ingredients: list[str] = Query(...), q: int = 1):
-    return {"message" : "Here are some recipes by ingredients!"}
+@app.get("/recipes/ingredients")
+async def get_recipes_by_ingredients(ingredients: List[str], number_of_recipes: int = 1):
+    return {"ingredients" : ingredients}
 
 
 @app.get("/recipes/{mealcourse}")
@@ -37,12 +39,12 @@ async def get_recipes_by_mealcourse(mealcourse: str):
     pass
 
 
-@app.get("/recipes/{image}")
-async def get_recipes_by_image(image: UploadFile):
-    pass
+# @app.get("/recipes/{image}")
+# async def get_recipes_by_image(image: UploadFile):
+#     pass
 
 
-@app.get("/recipes/{images}")
-async def get_recipe_by_images(images: UploadFile):
-    pass
+# @app.get("/recipes/{images}")
+# async def get_recipe_by_images(images: UploadFile):
+#     pass
 
