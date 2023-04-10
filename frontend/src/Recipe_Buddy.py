@@ -1,6 +1,9 @@
 import streamlit as st
 
-st.set_page_config(page_title="Recipe Buddy", page_icon="👩‍🍳")
+st.set_page_config(
+    page_title="Recipe Buddy",
+    page_icon="👩‍🍳"
+)
 
 st.markdown("## Recipe Buddy, a super easy app for your hunger pangs 😋")
 
