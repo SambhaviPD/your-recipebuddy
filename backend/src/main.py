@@ -40,7 +40,6 @@ class ResponseModel(BaseModel):
 async def home():
     return "Welcome to Recipe Buddy!"
 
-
 """
 Use Spoonacular API to fetch one random recipe
 """
@@ -49,11 +48,15 @@ def get_spoonacular_random_recipe(base_url, api_key):
     headers = {"X-API-KEY" : api_key}
     
     response = requests.get(random_recipe_url, headers=headers)
+    response_data = {
+        "response_data" : response.json()
+    }
+    final_response = ResponseModel(success=True, \
+                        message=f"Successfully returned a random recipe. Enjoy!", \
+                        data=response_data)
+    
+    return final_response
 
-
-@app.get("/recipes/surpriseme/")
-async def get_recipes_random():
-  return {"message" : "Were you surprised?"}
 
 # Valid Cuisines that an end user is allowed to send
 # If a cuisine  requested for is not in this list,
@@ -99,9 +102,8 @@ def get_spoonacular_recipes_by_cuisine(base_url, api_key, input_cuisine, number_
         "response_data" : response.json()
     }
     final_response = ResponseModel(success=True, \
-                        message=f"Successfully returned a random recipe. Enjoy!", \
-                        data=response_data)
-    
+                    message=f"Successfully returned recipes by {input_cuisine.capitalize()} Cuisine", \
+                    data=response_data)
     return final_response
 
 
@@ -121,23 +123,6 @@ async def get_recipes_random(api_choice: str, settings: Annotated[config.Setting
         get_gpt4_random_recipe()
 
     return recipe
-
-
-class Cuisine(str, Enum):
-    chinese = "chinese"
-    continental = "continental"
-    indian = "indian"
-    sushi = "sushi"
-    thai = "thai"
-
-
-@app.get("/recipes/{cuisine}")
-async def get_recipes_by_cuisine(cuisine: str):
-    return {"message" : "Here you go..."}
-=======
-                    message=f"Successfully returned recipes by {input_cuisine.capitalize()} Cuisine", \
-                    data=response_data)
-    return final_response
 
 
 def get_gpt4_recipes_by_cuisine():
