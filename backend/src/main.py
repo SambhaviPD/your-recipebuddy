@@ -8,9 +8,9 @@ from fastapi import Depends, FastAPI, status, UploadFile
 from typing_extensions import Annotated
 
 from pydantic import BaseModel
+from typing import List
 
 import config
-
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -125,9 +125,6 @@ async def get_recipes_random(api_choice: str, settings: Annotated[config.Setting
     return recipe
 
 
-def get_gpt4_recipes_by_cuisine():
-    pass
-
 """
 API to fetch recipes by cuisine
 """
@@ -156,9 +153,11 @@ async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Set
         return error_response
 
 
-# @app.get("/recipes/{ingredients}")
-# async def get_recipes_by_ingredients(ingredients: list[str]):
-#     pass
+# @app.get("/recipes/ingredients")
+# async def get_recipes_by_ingredients(selected_ingredients: str  = Query(None), \
+#                                    custom_ingredients: List[str] = Query(None), \
+#                                     number_of_recipes: str = Query(None)):
+#   return {"message" : f"Here are {number_of_recipes} recipes that uses {selected_ingredients} and {custom_ingredients}"}
 
 
 @app.get("/recipes/{mealcourse}")
