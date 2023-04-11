@@ -13,4 +13,4 @@ st.markdown("Upload a picture of your ingredients, and let the app suggest you o
 
 st.markdown("Or, search by Meal course or Ingredient list. Or, Just ask the app to surprise you 😲")
 
-st.markdown("#### Just click on a menu option on the left 🙌")
+st.markdown("#### Just open one of the subpages by clicking on it  in the sidebar on the left 🙌")
