@@ -19,5 +19,3 @@ st.markdown(
 
 st.markdown("#### Just open one of the subpages by clicking on it  in the sidebar on the left 🙌")
 
-
-st.markdown("#### Just open one of the subpages by clicking on it  in the sidebar on the left 🙌")
