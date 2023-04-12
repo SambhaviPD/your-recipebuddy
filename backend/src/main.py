@@ -213,10 +213,12 @@ async def get_recipes_by_ingredients(api_choice: str, \
     
     # Fetching enum values to a list
     ingredients = [ingredient.value for ingredient in Ingredient]
-    # Check if ingredient input is present in the list
-    # TODO - Need to split selected ingredients and then check
-    # whether it exists in the list.
-    if selected_ingredients.capitalize() in ingredients:
+    # Split the string so that we will be able to compare individual ingredient
+    selected_ingredients_list = [ingredient for ingredient in selected_ingredients.split(",")]
+    # Difference between input list and master list
+    additional_ingredients = set(selected_ingredients_list).difference(set(ingredients))
+    # If we do not have any additional ingredients, we proceed  
+    if not additional_ingredients:
         if settings.default_backend.upper() == api_choice.upper():
             recipes = get_spoonacular_recipes_by_ingredients(base_url=settings.spoonacular_base_url, \
                         api_key=settings.spoonacular_api_key, \
@@ -226,10 +228,10 @@ async def get_recipes_by_ingredients(api_choice: str, \
             return recipes
         else:
             recipes = get_gpt4_recipes_by_ingredients()
-    # Throw an error since cuisine input is not present in the list
+    # Throw an error if any additional ingredient is present as part os user input
     else:
         error_response = ResponseModel(success=False, \
-                    message=f"Sorry, invalid ingredients.",
+                    message=f"Sorry, {different_ingredients} are not present in our master list. ",
                     data={
                         "error_code" : status.HTTP_404_NOT_FOUND
                         })
