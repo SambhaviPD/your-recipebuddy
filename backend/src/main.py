@@ -231,7 +231,7 @@ async def get_recipes_by_ingredients(api_choice: str, \
     # Throw an error if any additional ingredient is present as part os user input
     else:
         error_response = ResponseModel(success=False, \
-                    message=f"Sorry, {different_ingredients} are not present in our master list. ",
+                    message=f"Sorry, {additional_ingredients} are not present in our master list. ",
                     data={
                         "error_code" : status.HTTP_404_NOT_FOUND
                         })
