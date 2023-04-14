@@ -1,4 +1,6 @@
 import requests
+import os
+import sys
 
 from enum import Enum
 from functools import lru_cache
@@ -8,7 +10,9 @@ from typing_extensions import Annotated
 
 from pydantic import BaseModel
 
-from . import config
+src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.append(src_path)
+from src import config
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -36,7 +40,7 @@ async def home():
     return "Welcome to Recipe Buddy!"
 
 
-@app.get("/recipes/surpriseme/")
+@app.get("/recipes/random/")
 async def get_recipes_random():
   return {"message" : "Were you surprised?"}
 
@@ -125,9 +129,9 @@ async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Set
 #     pass
 
 
-@app.get("/recipes/{mealcourse}")
-async def get_recipes_by_mealcourse(mealcourse: str):
-    return {"message" : "Here are some recipes by meal course!"}
+# @app.get("/recipes/{mealcourse}")
+# async def get_recipes_by_mealcourse(mealcourse: str):
+#     return {"message" : "Here are some recipes by meal course!"}
 
 
 # @app.get("/recipes/{image}")
