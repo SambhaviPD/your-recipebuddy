@@ -8,7 +8,7 @@ from fastapi import Depends, FastAPI, status, UploadFile
 from typing_extensions import Annotated
 
 from pydantic import BaseModel
-from typing import List
+
 
 import config
 
@@ -23,7 +23,6 @@ RECIPE_BY_CUISINE_QUERY_KEYWORD = "/complexSearch"
 @lru_cache()
 def get_settings():
     return config.Settings()
-
 
 """
 Class that corresponds to requests.model.Response
@@ -106,6 +105,9 @@ def get_spoonacular_recipes_by_cuisine(base_url, api_key, input_cuisine, number_
                     data=response_data)
     return final_response
 
+
+def get_gpt4_recipes_by_cuisine():
+    pass
 
 """
 Use GPT-4 API to fetch one random recipe
