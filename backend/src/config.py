@@ -4,8 +4,11 @@ class Settings(BaseSettings):
     # Until we provide the user an option to choose
     # between AI and non-AI, we default to Spoonacular
     default_backend: str = "Spoonacular"
-    spoonacular_base_url: str = None
-    spoonacular_api_key: str = None
+
+    spoonacular_base_url: str 
+    spoonacular_api_key: str
 
     class Config:
         env_file = ".env"
+        env_file_encoding = "utf-8"
+
