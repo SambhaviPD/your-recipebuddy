@@ -134,9 +134,6 @@ Use GPT-4 to fetch recipes by cuisine
 def get_gpt4_recipes_by_cuisine():
     pass
 
-"""
-def get_gpt4_recipes_by_cuisine():
-    pass
 
 """
 API to fetch recipes by cuisine
