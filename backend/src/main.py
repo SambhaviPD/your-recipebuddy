@@ -21,6 +21,7 @@ RECIPE_BY_CUISINE_QUERY_KEYWORD = "/complexSearch"
 RECIPE_BY_INGREDIENTS_QUERY_KEYWORD = "/findByIngredients"
 
 
+
 @lru_cache()
 def get_settings():
     return config.Settings() # type: ignore
@@ -57,24 +58,6 @@ def get_spoonacular_random_recipe(base_url, api_key):
                         data=response_data)
     
     return final_response
-
-
-"""
-Use GPT-4 API to fetch one random recipe
-"""
-def get_gpt4_random_recipe():
-    pass
-
-@app.get("/recipes/random", status_code=200, response_model=ResponseModel)
-async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
-    Depends(get_settings)]):
-    if settings.default_backend.upper() == api_choice.upper():
-        recipe = get_spoonacular_random_recipe(base_url=settings.spoonacular_base_url, \
-                                    api_key=settings.spoonacular_api_key)
-    else:
-        recipe = get_gpt4_random_recipe()
-
-    return recipe
 
 
 # Valid Cuisines that an end user is allowed to send
@@ -131,6 +114,24 @@ Use GPT-4 to fetch recipes by cuisine
 """
 def get_gpt4_recipes_by_cuisine():
     pass
+
+"""
+Use GPT-4 API to fetch one random recipe
+"""
+def get_gpt4_random_recipe():
+    pass
+
+@app.get("/recipes/random", status_code=200, response_model=ResponseModel)
+async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
+    Depends(get_settings)]):
+    if settings.default_backend.upper() == api_choice.upper():
+        recipe = get_spoonacular_random_recipe(base_url=settings.spoonacular_base_url, \
+                                    api_key=settings.spoonacular_api_key)
+    else:
+        get_gpt4_random_recipe()
+
+    return recipe
+
 
 """
 API to fetch recipes by cuisine
