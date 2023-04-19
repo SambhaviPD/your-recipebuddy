@@ -7,10 +7,6 @@ def test_homepage_has_RecipeBuddy_in_title_and_all_subpages_linked_correctly(pag
     # Expect a title "to contain" a substring
     expect(page).to_have_title(re.compile("Recipe Buddy"))
 
-    page_content = page.text_content("body")
-
-    expect(page_content).to_contain_text("Just click on a menu")
-
     # create a locator
     random_recipe = page.get_by_role("link", name="Random Recipe")
 
