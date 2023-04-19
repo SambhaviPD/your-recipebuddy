@@ -136,24 +136,6 @@ def get_gpt4_recipes_by_cuisine():
 
 
 """
-Use GPT-4 API to fetch one random recipe
-"""
-def get_gpt4_random_recipe():
-    pass
-
-@app.get("/recipes/random", status_code=200, response_model=ResponseModel)
-async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
-    Depends(get_settings)]):
-    if settings.default_backend.upper() == api_choice.upper():
-        recipe = get_spoonacular_random_recipe(base_url=settings.spoonacular_base_url, \
-                                    api_key=settings.spoonacular_api_key)
-    else:
-        get_gpt4_random_recipe()
-
-    return recipe
-
-
-"""
 API to fetch recipes by cuisine
 """
 @app.get("/recipes/cuisine", status_code=200, response_model=ResponseModel)
