@@ -10,7 +10,7 @@ from typing_extensions import Annotated
 
 from pydantic import BaseModel
 
-from .config import Settings
+from recipebuddy.backend.config import Settings
 
 app = FastAPI(title="Recipe Buddy")
 
