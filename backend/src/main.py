@@ -5,25 +5,27 @@ from functools import lru_cache
 
 from fastapi import Depends, FastAPI, status, Query
 
+from typing import Optional
 from typing_extensions import Annotated
 
 from pydantic import BaseModel
 
-from . import config
+from .config import Settings
 
 app = FastAPI(title="Recipe Buddy")
+
 
 # Keywords that are used in the APIs
 API_KEY_QUERY_KEYWORD = "?apiKey="
 RANDOM_RECIPE_QUERY_KEYWORD = "/random"
 RECIPE_BY_CUISINE_QUERY_KEYWORD = "/complexSearch"
 RECIPE_BY_INGREDIENTS_QUERY_KEYWORD = "/findByIngredients"
-
+RECIPE_BY_MEALCOURSE_QUERY_KEYWORD = "/complexSearch?&type="
 
 
 @lru_cache()
 def get_settings():
-    return config.Settings() 
+    return Settings() 
 
 
 """
@@ -34,7 +36,7 @@ more like content, headers, etc.,
 class ResponseModel(BaseModel):
     success: bool
     message: str
-    data: dict
+    data: Optional[dict] = None
 
 
 @app.get("/")
@@ -63,25 +65,10 @@ def get_spoonacular_random_recipe(base_url, api_key):
 Use GPT-4 API to fetch one random recipe
 """
 def get_gpt4_random_recipe():
-    pass
-
-@app.get("/recipes/random", status_code=200, response_model=ResponseModel)
-async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
-    Depends(get_settings)]):
-    if settings.default_backend.upper() == api_choice.upper():
-        recipe = get_spoonacular_random_recipe(base_url=settings.spoonacular_base_url, \
-                                    api_key=settings.spoonacular_api_key)
-    else:
-        recipe = get_gpt4_random_recipe()
-
-    return recipe
-
-
-"""
-Use GPT-4 API to fetch one random recipe
-"""
-def get_gpt4_random_recipe():
-    pass
+    final_response = ResponseModel(success=True, \
+                    message=f"GPT-4 API is work in progress. Hang on!"
+                    )
+    return final_response
 
 @app.get("/recipes/random", status_code=200, response_model=ResponseModel)
 async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
@@ -155,7 +142,7 @@ def get_gpt4_recipes_by_cuisine():
 API to fetch recipes by cuisine
 """
 @app.get("/recipes/cuisine", status_code=200, response_model=ResponseModel)
-async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Settings, \
+async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[Settings, \
         Depends(get_settings)], input_cuisine: str, number_of_recipes: int = 1):
     
     # Fetching enum values to a list
@@ -257,8 +244,78 @@ async def get_recipes_by_ingredients(api_choice: str, \
         return error_response
 
 
-@app.get("/recipes/{mealcourse}")
-async def get_recipes_by_mealcourse(mealcourse: str):
-    return {"message" : "Here are some recipes by meal course!"}
+# Valid Meal courses that an end user is allowed to send
+# If a meal course requested for is not in this list,
+# we throw a 404 exception
+
+class MealCourse(Enum):
+    MAIN_COURSE = "main course"
+    SIDE_DISH = "side dish"
+    DESSERT = "dessert"
+    APPETIZER = "appetizer"
+    SALAD = "salad"
+    BREAD = "bread"
+    BREAKFAST = "breakfast"
+    SOUP = "soup"
+    BEVERAGE = "beverage"
+    SAUCE = "sauce"
+    MARINADE = "marinade"
+    FINGERFOOD = "fingerfood"
+    SNACK = "snack"
+    DRINK = "drink"
 
 
+"""
+Use Spoonacular API to fetch recipes by meal course
+"""
+def get_spoonacular_recipes_by_mealcourse(base_url, api_key, mealcourse, number_of_recipes):
+    recipes_by_mealcourse_url = f"{base_url}{RECIPE_BY_MEALCOURSE_QUERY_KEYWORD}\
+        {mealcourse}&number={str(number_of_recipes)}"
+    headers = {"X-API-KEY" : api_key}
+
+    print("recipes_by_mealcourse_url: ", recipes_by_mealcourse_url)
+    response = requests.get(recipes_by_mealcourse_url, headers=headers)
+    response_data = {
+        "response_data" : response.json()
+    }
+    final_response = ResponseModel(success=True, \
+                    message=f"Successfully returned {number_of_recipes} recipes that are {mealcourse}", \
+                    data=response_data)
+    return final_response
+
+
+"""
+Use GPT-4 to fetch recipes by meal course
+"""
+def get_gpt4_recipes_by_mealcourse():
+    pass
+
+"""
+API to fetch recipes by meal course
+"""
+@app.get("/recipes/mealcourse", status_code=200, response_model=ResponseModel)
+async def get_recipes_by_mealcourse(api_choice: str, \
+                                    settings: Annotated[Settings, \
+                                        Depends(get_settings)], \
+                                    mealcourse: str, \
+                                    number_of_recipes: int = 1):
+    # Fetching enum values to a list
+    meal_courses = [mealcourse.value for mealcourse in MealCourse]
+    # Check if meal course input is present in the list
+    if mealcourse.lower() in meal_courses:
+        if settings.default_backend.upper() == api_choice.upper():
+            recipes = get_spoonacular_recipes_by_mealcourse(base_url=settings.spoonacular_base_url, \
+                        api_key=settings.spoonacular_api_key, \
+                        mealcourse=mealcourse, \
+                        number_of_recipes=number_of_recipes)
+            return recipes
+        else:
+            recipes = get_gpt4_recipes_by_mealcourse()
+    # Throw an error since meal course input is not present in the list
+    else:
+        error_response = ResponseModel(success=False, \
+                    message=f"Sorry, no recipes of {mealcourse} were found",
+                    data={
+                        "error_code" : status.HTTP_404_NOT_FOUND
+                        })
+        return error_response
