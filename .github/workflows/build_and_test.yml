@@ -9,7 +9,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    env:
+      SPOONACULAR_BASE_URL: ${{ secrets.SPOONACULAR_BASE_URL }}
+      SPOONACULAR_API_KEY: ${{ secrets.SPOONACULAR_API_KEY }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
