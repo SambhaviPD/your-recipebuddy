@@ -5,14 +5,15 @@ from functools import lru_cache
 
 from fastapi import Depends, FastAPI, status, Query
 
+from typing import Optional
 from typing_extensions import Annotated
 
 from pydantic import BaseModel
 
-
-import config
+from recipebuddy.backend.config import Settings
 
 app = FastAPI(title="Recipe Buddy")
+
 
 # Keywords that are used in the APIs
 API_KEY_QUERY_KEYWORD = "?apiKey="
@@ -22,10 +23,9 @@ RECIPE_BY_INGREDIENTS_QUERY_KEYWORD = "/findByIngredients"
 RECIPE_BY_MEALCOURSE_QUERY_KEYWORD = "/complexSearch?&type="
 
 
-
 @lru_cache()
 def get_settings():
-    return config.Settings() 
+    return Settings() 
 
 
 """
@@ -36,7 +36,7 @@ more like content, headers, etc.,
 class ResponseModel(BaseModel):
     success: bool
     message: str
-    data: dict
+    data: Optional[dict] = None
 
 
 @app.get("/")
@@ -65,12 +65,15 @@ def get_spoonacular_random_recipe(base_url, api_key):
 Use GPT-4 API to fetch one random recipe
 """
 def get_gpt4_random_recipe():
-    pass
+    final_response = ResponseModel(success=True, \
+                    message=f"GPT-4 API is work in progress. Hang on!"
+                    )
+    return final_response
 
 @app.get("/recipes/random", status_code=200, response_model=ResponseModel)
-async def get_recipes_random(api_choice: str, settings: Annotated[config.Settings, \
+async def get_recipes_random(api_choice: str, settings: Annotated[Settings, \
     Depends(get_settings)]):
-    if settings.default_backend.upper() == api_choice.upper():
+    if api_choice.upper() == settings.default_backend.upper():
         recipe = get_spoonacular_random_recipe(base_url=settings.spoonacular_base_url, \
                                     api_key=settings.spoonacular_api_key)
     else:
@@ -139,7 +142,7 @@ def get_gpt4_recipes_by_cuisine():
 API to fetch recipes by cuisine
 """
 @app.get("/recipes/cuisine", status_code=200, response_model=ResponseModel)
-async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[config.Settings, \
+async def get_recipes_by_cuisine(api_choice: str, settings: Annotated[Settings, \
         Depends(get_settings)], input_cuisine: str, number_of_recipes: int = 1):
     
     # Fetching enum values to a list
@@ -208,7 +211,7 @@ API to fetch recipes by ingredients
 """
 @app.get("/recipes/ingredients")
 async def get_recipes_by_ingredients(api_choice: str, \
-                settings: Annotated[config.Settings, \
+                settings: Annotated[Settings, \
                 Depends(get_settings)], \
                 selected_ingredients: str  = Query(None), \
                 custom_ingredients: str = Query(None), \
@@ -292,7 +295,7 @@ API to fetch recipes by meal course
 """
 @app.get("/recipes/mealcourse", status_code=200, response_model=ResponseModel)
 async def get_recipes_by_mealcourse(api_choice: str, \
-                                    settings: Annotated[config.Settings, \
+                                    settings: Annotated[Settings, \
                                         Depends(get_settings)], \
                                     mealcourse: str, \
                                     number_of_recipes: int = 1):
