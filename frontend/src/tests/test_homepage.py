@@ -1,6 +1,7 @@
 import re
 from playwright.sync_api import Page, expect
 
+#TODO break into smaller tests
 def test_homepage_has_RecipeBuddy_in_title_and_all_subpages_linked_correctly(page: Page):
     page.goto("http://localhost:8501/")
 
@@ -38,3 +39,11 @@ def test_homepage_has_RecipeBuddy_in_title_and_all_subpages_linked_correctly(pag
     expect(page).to_have_url(re.compile("/Recipe_By_Mealcourse"))
 
     # TODO - How to check for content in a page
+
+def test_content(page: Page):
+    page.goto("http://localhost:8501/")
+
+    page_content = page.text_content("body")
+
+    assert "Just ask the app to surprise you" in page_content
+
