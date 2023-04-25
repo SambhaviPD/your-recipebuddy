@@ -3,7 +3,7 @@ import streamlit as st
 
 API_URL = "http://127.0.0.1:8000/recipes/random/"
 
-st.set_page_config(page_title="Surprise me!", page_icon="🍲")
+st.set_page_config(page_title="Random Recipe", page_icon="🍲")
 
 st.markdown("## Who does not love surprises?")
 
