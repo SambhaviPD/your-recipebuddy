@@ -2,7 +2,7 @@ name: Build and Test
 
 on:
   push:
-    branches: ['*']
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -23,6 +23,14 @@ jobs:
       run: |
         chmod +x install_playwright.sh
         ./install_playwright.sh
+    - name: Start FastAPI server
+      run: |
+        uvicorn recipebuddy.backend.main:app --host 0.0.0.0 --port 8000 &
+        sleep 5 # wait for server to start
+    - name: Start Streamlit server
+      run: |
+        streamlit run recipebuddy/frontend/Recipe_Buddy.py --server.port 8501 &
+        sleep 5 # wait for server to start
     - name: Run tests
       run: |
         pytest
