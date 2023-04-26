@@ -1,6 +1,0 @@
-fastapi
-Pillow
-python-dotenv
-python-multipart
-requests
-uvicorn
