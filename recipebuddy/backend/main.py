@@ -1,16 +1,12 @@
-import requests
-
 from enum import Enum
 from functools import lru_cache
-
-from fastapi import Depends, FastAPI, status, Query
-
 from typing import Optional
-from typing_extensions import Annotated
 
+import requests
+from configuration import Settings
+from fastapi import Depends, FastAPI, Query, status
 from pydantic import BaseModel
-
-from recipebuddy.backend.config import Settings
+from typing_extensions import Annotated
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -319,5 +315,6 @@ async def get_recipes_by_mealcourse(api_choice: str, \
                         "error_code" : status.HTTP_404_NOT_FOUND
                         })
         return error_response
+
 
 

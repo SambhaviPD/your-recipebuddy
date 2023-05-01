@@ -7,11 +7,11 @@ WORKDIR /app
 RUN apt-get update
 
 # Copy requirements.txt file
-COPY ./recipebuddy/backend/requirements.txt .
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./recipebuddy/backend/ /app/recipebuddy/backend
+COPY . /app/
 
-EXPOSE 8080
+EXPOSE 8080:8080
 
-CMD ["python", "recipebuddy/backend/main.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--reload"]
