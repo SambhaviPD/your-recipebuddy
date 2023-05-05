@@ -2,7 +2,7 @@ version: '3'
 
 services:
   frontend:
-    build: ./recipebudfy/frontend
+    build: ./recipebuddy/frontend
     ports:
       - 8501:8501
     depends_on:
@@ -10,8 +10,9 @@ services:
     volumes:
       - ./storage:/storage
   backend:
-    build: ./recipebuddy/backend
-    ports: 
+    build: ./recipebuddy/backend 
+    ports:
       - 8080:8080
     volumes:
       - ./storage:/storage
+

@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 
-API_URL = "http://127.0.0.1:8000/recipes/{cuisine}"
+API_URL = "http://backend:8080/recipes/cuisine"
 
 st.set_page_config(page_title="By Cuisine", page_icon="🥘")
 
@@ -21,6 +21,8 @@ with st.form("recipebycuisine_form"):
     submitted = st.form_submit_button("Fetch Recipe!")
 
     if submitted:
+        API_URL = f"{API_URL}?api_choice=Spoonacular&input_cuisine={cuisine_option}&input_results={results_option}"
         response = requests.get(API_URL)
         output = response.json()
         st.write(output["message"])
+        st.write(output["data"])
