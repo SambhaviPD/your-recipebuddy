@@ -1,16 +1,15 @@
 from enum import Enum
 from functools import lru_cache
 from typing import Optional
-
 import requests
-from configuration import Settings
+
 from fastapi import Depends, FastAPI, Query, status
 from pydantic import BaseModel
 from typing_extensions import Annotated
 
 from pydantic import BaseModel
 
-from configuration import Settings
+from .configuration import Settings
 
 app = FastAPI(title="Recipe Buddy")
 
