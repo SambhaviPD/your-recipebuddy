@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 
-API_URL = "http://127.0.0.1:8000/recipes/cuisine"
+API_URL = "http://backend:8080/recipes/cuisine"
 
 st.set_page_config(page_title="By Cuisine", page_icon="🥘")
 

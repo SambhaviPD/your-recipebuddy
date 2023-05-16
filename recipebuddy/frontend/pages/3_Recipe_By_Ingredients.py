@@ -30,7 +30,7 @@ with st.form("recipebyingredient_form"):
         custom_ingredients = custom_ingredients.replace(", ", ",")
         results_option = str(results_option)
         
-        API_URL = f"http://127.0.0.1:8000/recipes/ingredients?selected_ingredients={selected_ingredients}&custom_ingredients={custom_ingredients}&number_of_recipes={results_option}"
+        API_URL = f"http://backend:8080/recipes/ingredients?api_choice=Spoonacular&selected_ingredients={selected_ingredients}&custom_ingredients={custom_ingredients}&number_of_recipes={results_option}"
         
         response = requests.get(API_URL)
         output = response.json()
