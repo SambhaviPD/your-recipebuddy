@@ -9,7 +9,7 @@ from typing_extensions import Annotated
 
 from pydantic import BaseModel
 
-from .configuration import Settings
+from recipebuddy.backend.configuration import Settings
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -138,7 +138,7 @@ def get_spoonacular_recipes_by_cuisine(
     response_data = {"response_data": response.json()}
     final_response = ResponseModel(
         success=True,
-        message=f"Successfully returned recipes by {input_cuisine.capitalize()} Cuisine",
+        message=f"Successfully returned {number_of_recipes} {input_cuisine.capitalize()} cuisine recipes",
         data=response_data,
     )
     return final_response

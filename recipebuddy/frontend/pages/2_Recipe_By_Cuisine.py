@@ -7,14 +7,16 @@ st.set_page_config(page_title="By Cuisine", page_icon="🥘")
 
 st.markdown("### Choose your favorite Cuisine")
 
-cuisine_option = st.selectbox(
+cuisine_option = st.selectbox(    
     "Pick one to start with:",
-    ("Chinese", "Continental", "Indian", "Sushi", "Thai")
+    ("Chinese", "Continental", "Indian", "Sushi", "Thai"),
+    key="cuisine_selectbox"
 )
 
 results_option =st.selectbox(
     "How many recipes do you want to see?",
-    (1,2,3,4,5)
+    (1,2,3,4,5),
+    key="results_selectbox"
 )
 
 with st.form("recipebycuisine_form"):

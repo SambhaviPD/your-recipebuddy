@@ -45,4 +45,3 @@ def test_content(page: Page):
     expected_string = "Just ask the app to surprise you"
 
     expect(page.get_by_text(expected_string)).to_be_visible()
-
