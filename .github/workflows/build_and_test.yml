@@ -26,7 +26,8 @@ jobs:
         playwright install
     - name: Start FastAPI server
       run: |
-        uvicorn recipebuddy.backend.main:app --host 0.0.0.0 --port 8000 &
+        cd recipebuddy/backend
+        uvicorn main:app --host 0.0.0.0 --port 8000 &
         sleep 5 # wait for server to start
     - name: Start Streamlit server
       run: |
