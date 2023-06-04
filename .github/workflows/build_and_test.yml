@@ -22,17 +22,24 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r recipebuddy/backend/requirements.txt
+        pip install -r recipebuddy/frontend/requirements.txt
         playwright install
     - name: Start FastAPI server
       run: |
         cd recipebuddy/backend
-        uvicorn main:app --host 0.0.0.0 --port 8000 &
+        uvicorn src.recipebuddy_backend.main:app --host 0.0.0.0 --port 8080 &
         sleep 5 # wait for server to start
+    - name: Run backend tests
+      run: |
+        cd recipebuddy/backend/src/recipebuddy_backend
+        pytest tests
     - name: Start Streamlit server
       run: |
-        streamlit run recipebuddy/frontend/Recipe_Buddy.py --server.port 8501 &
+        cd recipebuddy/frontend
+        streamlit run src/recipebuddy_frontend/Recipe_Buddy.py --server.port 8501 &
         sleep 5 # wait for server to start
-    - name: Run tests
+    - name: Run frontend tests
       run: |
-        pytest
+        cd recipebuddy/frontend/src/recipebuddy_frontend
+        pytest tests

@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from recipebuddy.backend.main import app
+from recipebuddy_backend.main import app
 
 client = TestClient(app)
 

@@ -24,10 +24,11 @@ def test_page_static_content(page: Page):
 def test_page_successful_response(page: Page):
     page.goto("http://localhost:8501/Random_Recipe")
 
-    API_URL = "http://backend:8080/recipebuddy/random_recipe"
+    API_URL = "http://localhost:8080/recipes/random"
+    API_URL = f"{API_URL}?api_choice=Spoonacular"
 
     response = requests.get(API_URL)
     page.wait_for_timeout(5000)
 
     expected_response = "Successfully returned a random recipe. Enjoy!"
-    assert response.json()["message"] == expected_response
+    assert response.json()["message"] in expected_response

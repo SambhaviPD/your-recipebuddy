@@ -1,7 +1,7 @@
 from pydantic import BaseSettings
 import pathlib
 
-cfd = pathlib.Path(__file__).parent.absolute()
+cfd = pathlib.Path(__file__).parent.parent.absolute()
 env_path = cfd / ".env"
 
 class Settings(BaseSettings):

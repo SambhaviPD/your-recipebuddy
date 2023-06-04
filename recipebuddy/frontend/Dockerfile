@@ -11,4 +11,6 @@ COPY . .
 
 EXPOSE 8501:8501
 
-CMD streamlit run --server.port 8501 --server.enableCORS false Recipe_Buddy.py
+RUN pip install -e .
+
+CMD streamlit run --server.port 8501 --server.enableCORS false src/recipebuddy_frontend/Recipe_Buddy.py
