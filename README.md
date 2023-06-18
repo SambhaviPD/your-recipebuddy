@@ -1,21 +1,22 @@
 # RecipeBuddy
-Webapp to suggest recipes based on a variety of input choices. Frontend using Streamlit and Backend using FastAPI
 
-### How it started
-Two reasons:  
-(1) I was bored of cooking the same recipes again and again. Wanted some variety 😀
-(2) I've also been wanting to open source my work, collaborate with people of similar interests and develop
 
-This situation seemed to fit both my bills. I developed a few features myself, and then opening it up so that there is a wall for everyone to start sketching.
+RecipeBuddy is a straightforward web app, leveraging Streamlit's front-end and FastAPI's back-end to provide recipe suggestions based on user input. It displays an assortment of recipes, each with a clear image, ingredient list, and preparation instructions, sourced from a diverse array of culinary sites. An uncomplicated solution for those seeking cooking inspiration tailored to their preferences.
 
-### Super brief roadmap
-Initial idea was to just build APIs that can be consumed by any web app/mobile app. For initial visualization purpose, a simple frontend using Streamlit was added. At some point of time, I plan to leave behind the frontend part and just focus on backend. 
+# A quick demo (WIP)
+https://recipebuddy.fly.dev/
 
-At the moment (June 11, 2023):
-1. 3 APIs have been developed, both backend and frontend with testcases in playwright and pytest 
-2. Docker files are written, one for backend and one for frontend
-3. docker-compose.yml is added for easy deployment in local
-4. CI pipeline is set up through Github actions
+# Further Details about RecipeBuddy
+Initial target segment for RecipeBuddy is literally anyone who wants some interesting recipe ideas without doing a lot of search. 
+
+3 APIs are written when I open sourced the repo. Testcases are written using playwright and pytest. CI is integrated as well. CD is not enabled as the repo needs to stabilize, solid features to be added. I plan to maintain a feature roadmap along with a sprint plan. 
+
+The code was developed on the Windows platform, but it's designed to run seamlessly on any other platform without modifications. To start with, the solution is deployed in fly (https://fly.io/).
+
+All contributions are welcome!
+
+
+### How to set it up in your local machine?
 
 ### How to start contributing
 - Create a virtual environment. Here's a [good link](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/) that'll help you create one
@@ -28,6 +29,17 @@ At the moment (June 11, 2023):
 - Add test cases to ensure that your code does what it's intended to do
 - Commit your code to the branch you created
 - Open a Pull Request (PR)
-- On successful review, your changes will be merged to main
+- On successful code review, your changes will be merged to main
 
+### Roadmap
+
+
+### How it started
+Two reasons:  
+(1) I was bored of cooking the same recipes again and again. Wanted some variety 😀
+(2) I've also been wanting to open source my work, collaborate with people of similar interests and build 🤝
+
+This situation seemed to fit both my bills. I developed a few features myself, and then opening it up so that there is a wall for everyone to start sketching.
+
+### Contributors
 
