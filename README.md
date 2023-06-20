@@ -16,6 +16,7 @@ All contributions are welcome!
 
 
 ### How to set it up in your local machine?
+To be written
 
 ### How to start contributing
 - Create a virtual environment. Here's a [good link](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/) that'll help you create one
