@@ -1,6 +1,5 @@
 # RecipeBuddy
 
-
 RecipeBuddy is a straightforward web app, leveraging Streamlit's front-end and FastAPI's back-end to provide recipe suggestions based on user input. It displays an assortment of recipes, each with a clear image, ingredient list, and preparation instructions, sourced from a diverse array of culinary sites. An uncomplicated solution for those seeking cooking inspiration tailored to their preferences.
 
 # A quick demo (WIP)
@@ -11,7 +10,7 @@ Initial target segment for RecipeBuddy is literally anyone who wants some intere
 
 3 APIs are written when I open sourced the repo. Testcases are written using playwright and pytest. CI is integrated as well. CD is not enabled as the repo needs to stabilize, solid features to be added. I plan to maintain a feature roadmap along with a sprint plan. 
 
-The code was developed on the Windows platform, but it's designed to run seamlessly on any other platform without modifications. To start with, the solution is deployed in fly (https://fly.io/).
+The code was developed on Windows platform, but it's designed to run seamlessly on any other platform without modifications. To start with, the solution is deployed in [fly](https://fly.io/)
 
 All contributions are welcome!
 
@@ -32,7 +31,7 @@ All contributions are welcome!
 - On successful code review, your changes will be merged to main
 
 ### Roadmap
-
+https://www.notion.so/sambhavi/RecipeBuddy-Roadmap-f6ff7c9f33a043b9b133793d2a698474
 
 ### How it started
 Two reasons:  
