@@ -32,7 +32,7 @@ To be written
 - On successful code review, your changes will be merged to main
 
 ### Roadmap
-https://www.notion.so/sambhavi/RecipeBuddy-Roadmap-f6ff7c9f33a043b9b133793d2a698474
+https://sambhavi.notion.site/RecipeBuddy-Roadmap-f6ff7c9f33a043b9b133793d2a698474
 
 ### How it started
 Two reasons:  
