@@ -16,11 +16,38 @@ All contributions are welcome!
 
 
 ### How to set it up in your local machine?
-To be written
+- Create a virtual environment. Here's a [good link](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/) that'll help you create one
+- For the repository using the fork button on top right corner
+- Before setting up the code, sign up at `https://spoonacular.com/food-api`
+- Go to My Console -> Profile -> Generate new API Key. This will be your Spoonacular API Key
+    for your local use. Free plan is good enough for local development and testing
+- Open a terminal and navigate to recipebuddy/src/
+- Create a .env file
+- Add the following entries
+    SPOONACULAR_BASE_URL="https://api.spoonacular.com/recipes"
+    SPOONACULAR_API_KEY="Replace your API Key here"
+- Save the file
+- Now navigate to recipebuddy/src/recipebuddy_backend
+- Execute `pip install -r requirements.txt`
+- Once the packages are installed, navigate to recipebuddy/src/recipebuddy_frontend
+- Again execute `pip install -r requirements.txt`
+- Once all packages are installed, navigate to root directory i.e. recipebuddy
+- Execute `docker-compose build`
+- Once both the images corresponding to both images are built successfully, execute
+    `docker-compose up`
+- This will bring up the application in your local machine. To test, goto `https://localhost:8501`
+- You should see the home page of your-recipe-buddy
+- For Github Actions to work, add secrets to your repository
+- Go to your Github repo of your-recipe-buddy
+- Choose Settings -> Security -> Secrets and Variables -> Actions
+- Click on New Repository Secret
+- Add the same values as present in .env file
+- Save them. Now github workflow file will run smoothly when you try to commit your code
+
 
 ### How to start contributing
-- Create a virtual environment. Here's a [good link](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/) that'll help you create one
-- Fork the repository using the fork button on top right corner
+- Follow the steps under `How to set it up in your local machine?`
+- Once setup is successful, proceed to the next step
 - Choose an issue to work on
 - Update on comments section that you are working on a particular issue
 - Create a new branch from the issue before you start working
