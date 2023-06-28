@@ -13,7 +13,7 @@ cuisine_option = st.selectbox(
     key="cuisine_selectbox"
 )
 
-results_option =st.selectbox(
+number_of_recipes =st.selectbox(
     "How many recipes do you want to see?",
     (1,2,3,4,5),
     key="results_selectbox"
@@ -23,7 +23,7 @@ with st.form("recipebycuisine_form"):
     submitted = st.form_submit_button("Fetch Recipe!")
 
     if submitted:
-        API_URL = f"{API_URL}?api_choice=Spoonacular&input_cuisine={cuisine_option}&input_results={results_option}"
+        API_URL = f"{API_URL}?api_choice=Spoonacular&input_cuisine={cuisine_option}&number_of_recipes={number_of_recipes}"
         response = requests.get(API_URL)
         output = response.json()
         st.write(output["message"])
