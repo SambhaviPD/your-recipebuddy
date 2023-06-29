@@ -2,6 +2,7 @@ from enum import Enum
 from functools import lru_cache
 from typing import Optional
 import requests
+import json
 
 from fastapi import Depends, FastAPI, Query, status
 from pydantic import BaseModel
@@ -210,16 +211,13 @@ Use Spoonacular API to fetch recipes by ingredients
 def get_spoonacular_recipes_by_ingredients(
     base_url, api_key, selected_ingredients, custom_ingredients, number_of_recipes
 ):
-    print(selected_ingredients)
-    selected_ingredients = ", ".join(selected_ingredients)
-    print(selected_ingredients)
+    selected_ingredients = selected_ingredients.strip('[]')
     recipes_by_ingredient_url = f"{base_url}{RECIPE_BY_INGREDIENTS_QUERY_KEYWORD}?&ingredients=\
         {selected_ingredients},{custom_ingredients}&number={str(number_of_recipes)}"
     headers = {"X-API-KEY": api_key}
 
     response = requests.get(recipes_by_ingredient_url, headers=headers)
     response_data = {"response_data": response.json()}
-    print(response_data)
     final_response = ResponseModel(
         success=True,
         message=f"Successfully returned {number_of_recipes} recipe(s) that uses \
@@ -251,6 +249,17 @@ async def get_recipes_by_ingredients(
     custom_ingredients: str = Query(None),
     number_of_recipes: int = 1,
 ):
+    ingredients_list = [member.value for name, member in Ingredient.__members__.items()]
+    selected_ingredients_list = json.loads(selected_ingredients)
+
+    for item in selected_ingredients_list:
+        if item not in ingredients_list:
+            error_response = ResponseModel(
+                success=False,
+                message=f"Sorry, no recipes of {item} were found",
+                data={"error_code": status.HTTP_404_NOT_FOUND},
+            )
+            return error_response
 
     if settings.default_backend.upper() == api_choice.upper():
         recipes = get_spoonacular_recipes_by_ingredients(

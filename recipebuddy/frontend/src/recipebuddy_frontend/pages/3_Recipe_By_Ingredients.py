@@ -35,3 +35,4 @@ with st.form("recipebyingredient_form"):
         response = requests.get(API_URL)
         output = response.json()
         st.write(output["message"])
+        st.write(output["data"])
