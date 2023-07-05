@@ -2,13 +2,16 @@ import requests
 
 import streamlit as st
 
+API_URL = "http://backend:8080/recipes/ingredients"
+
 st.set_page_config(page_title="By Ingredients", page_icon="🥦")
 
 st.markdown("## What main ingredients do you have today? ")
 
-selected_ingredients = st.multiselect("Select one or more from the list", 
+selected_ingredients_list = st.multiselect("Select one or more from the list", 
                ("Brocoli", "Cheese", "Meat", "Mushroom", "Pasta", "Tomato")
                )
+selected_ingredients = ', '.join(selected_ingredients_list)
 
 st.markdown("#### We know we cannot show all possibe ingredients. \
             So feel free to type below.")
@@ -25,12 +28,11 @@ with st.form("recipebyingredient_form"):
     submitted = st.form_submit_button("Fetch Recipe")
 
     if submitted:
-        selected_ingredients = str(selected_ingredients)
         # Remove additional white spaces
         custom_ingredients = custom_ingredients.replace(", ", ",")
         results_option = str(results_option)
         
-        API_URL = f"http://backend:8080/recipes/ingredients?api_choice=Spoonacular&selected_ingredients={selected_ingredients}&custom_ingredients={custom_ingredients}&number_of_recipes={results_option}"
+        API_URL = f"{API_URL}?api_choice=Spoonacular&selected_ingredients={selected_ingredients}&custom_ingredients={custom_ingredients}&number_of_recipes={results_option}"
         
         response = requests.get(API_URL)
         output = response.json()

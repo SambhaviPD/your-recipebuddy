@@ -211,11 +211,11 @@ Use Spoonacular API to fetch recipes by ingredients
 def get_spoonacular_recipes_by_ingredients(
     base_url, api_key, selected_ingredients, custom_ingredients, number_of_recipes
 ):
-    selected_ingredients = selected_ingredients.strip('[]')
-    recipes_by_ingredient_url = f"{base_url}{RECIPE_BY_INGREDIENTS_QUERY_KEYWORD}?&ingredients=\
+    recipes_by_ingredient_url = f"{base_url}{RECIPE_BY_INGREDIENTS_QUERY_KEYWORD}?ingredients=\
         {selected_ingredients},{custom_ingredients}&number={str(number_of_recipes)}"
     headers = {"X-API-KEY": api_key}
 
+    print('recipes_by_ingredient_url: ', recipes_by_ingredient_url)
     response = requests.get(recipes_by_ingredient_url, headers=headers)
     response_data = {"response_data": response.json()}
     final_response = ResponseModel(
@@ -241,7 +241,7 @@ API to fetch recipes by ingredients
 """
 
 
-@app.get("/recipes/ingredients")
+@app.get("/recipes/ingredients", status_code=200, response_class=ResponseModel)
 async def get_recipes_by_ingredients(
     api_choice: str,
     settings: Annotated[Settings, Depends(get_settings)],
@@ -250,9 +250,9 @@ async def get_recipes_by_ingredients(
     number_of_recipes: int = 1,
 ):
     ingredients_list = [member.value for name, member in Ingredient.__members__.items()]
-    selected_ingredients_list = json.loads(selected_ingredients)
 
-    for item in selected_ingredients_list:
+    print('selected_ingredients: ' , selected_ingredients)
+    for item in selected_ingredients.split(','):
         if item not in ingredients_list:
             error_response = ResponseModel(
                 success=False,
