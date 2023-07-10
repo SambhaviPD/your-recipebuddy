@@ -215,7 +215,6 @@ def get_spoonacular_recipes_by_ingredients(
         {selected_ingredients},{custom_ingredients}&number={str(number_of_recipes)}"
     headers = {"X-API-KEY": api_key}
 
-    print('recipes_by_ingredient_url: ', recipes_by_ingredient_url)
     response = requests.get(recipes_by_ingredient_url, headers=headers)
     response_data = {"response_data": response.json()}
     final_response = ResponseModel(
