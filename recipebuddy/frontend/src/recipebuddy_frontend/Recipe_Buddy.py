@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+import pathlib
 import streamlit as st
 
 st.set_page_config(
@@ -19,3 +21,7 @@ st.markdown(
 
 st.markdown("#### Just open one of the subpages by clicking on it  in the sidebar on the left 🙌")
 
+
+cfd = pathlib.Path(__file__).parent.parent.absolute()
+dotenv_path = cfd / ".env"
+load_dotenv(dotenv_path=dotenv_path)

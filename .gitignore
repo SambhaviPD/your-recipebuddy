@@ -399,3 +399,6 @@ dmypy.json
 
 # VS Code
 .vscode/
+
+# Fly related files
+fly.toml

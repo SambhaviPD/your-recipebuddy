@@ -1,6 +1,9 @@
+import os
 import requests
 
 import streamlit as st
+
+API_URL = f"{os.environ.get('API_BASE_URL')}/recipes/ingredients"
 
 st.set_page_config(page_title="By Ingredients", page_icon="🥦")
 
@@ -30,7 +33,7 @@ with st.form("recipebyingredient_form"):
         custom_ingredients = custom_ingredients.replace(", ", ",")
         results_option = str(results_option)
         
-        API_URL = f"http://backend:8080/recipes/ingredients?api_choice=Spoonacular&selected_ingredients={selected_ingredients}&custom_ingredients={custom_ingredients}&number_of_recipes={results_option}"
+        API_URL = f"{API_URL}?api_choice=Spoonacular&selected_ingredients={selected_ingredients}&custom_ingredients={custom_ingredients}&number_of_recipes={results_option}"
         
         response = requests.get(API_URL)
         output = response.json()

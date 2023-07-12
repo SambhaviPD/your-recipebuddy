@@ -1,8 +1,9 @@
+import os
 import requests
 
 import streamlit as st
 
-API_URL = "http://backend:8080/recipes/mealcourse"
+API_URL = f"{os.environ.get('API_BASE_URL')}/recipes/mealcourse"
 
 st.set_page_config(
     page_title="By Meal course",
