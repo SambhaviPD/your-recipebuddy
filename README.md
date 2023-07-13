@@ -3,7 +3,7 @@
 RecipeBuddy is a straightforward web app, leveraging Streamlit's front-end and FastAPI's back-end to provide recipe suggestions based on user input. It displays an assortment of recipes, each with a clear image, ingredient list, and preparation instructions, sourced from a diverse array of culinary sites. An uncomplicated solution for those seeking cooking inspiration tailored to their preferences.
 
 # A quick demo (WIP)
-https://recipebuddy.fly.dev/
+https://yourrecipebuddy.fly.dev/
 
 # Further Details about RecipeBuddy
 Initial target segment for RecipeBuddy is literally anyone who wants some interesting recipe ideas without doing a lot of search. 
