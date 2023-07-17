@@ -1,43 +1,21 @@
 from enum import Enum
-from functools import lru_cache
-from typing import Optional
 import requests
 
 from fastapi import Depends, FastAPI, Query, status
-from pydantic import BaseModel
+
 from typing_extensions import Annotated
 
-from pydantic import BaseModel
-
-from .configuration import Settings
+from .configuration import Settings, ResponseModel, get_settings
+from .random_recipe import get_recipes_random
 
 app = FastAPI(title="Recipe Buddy")
 
 
 # Keywords that are used in the APIs
 API_KEY_QUERY_KEYWORD = "?apiKey="
-RANDOM_RECIPE_QUERY_KEYWORD = "/random"
 RECIPE_BY_CUISINE_QUERY_KEYWORD = "/complexSearch"
 RECIPE_BY_INGREDIENTS_QUERY_KEYWORD = "/findByIngredients"
 RECIPE_BY_MEALCOURSE_QUERY_KEYWORD = "/complexSearch?&type="
-
-
-@lru_cache()
-def get_settings():
-    return Settings()
-
-
-"""
-Class that corresponds to requests.model.Response
-Adding only 3 fields now. As need arises we can add
-more like content, headers, etc.,
-"""
-
-
-class ResponseModel(BaseModel):
-    success: bool
-    message: str
-    data: Optional[dict] = None
 
 
 @app.get("/")
@@ -45,50 +23,11 @@ async def home():
     return "Welcome to Recipe Buddy!"
 
 
-"""
-Use Spoonacular API to fetch one random recipe
-"""
-
-
-def get_spoonacular_random_recipe(base_url, api_key):
-    random_recipe_url = f"{base_url}{RANDOM_RECIPE_QUERY_KEYWORD}"
-    headers = {"X-API-KEY": api_key}
-
-    response = requests.get(random_recipe_url, headers=headers)
-    response_data = {"response_data": response.json()}
-    final_response = ResponseModel(
-        success=True,
-        message=f"Successfully returned a random recipe. Enjoy!",
-        data=response_data,
-    )
-
-    return final_response
-
-
-"""
-Use GPT-4 API to fetch one random recipe
-"""
-
-
-def get_gpt4_random_recipe():
-    final_response = ResponseModel(
-        success=True, message=f"GPT-4 API is work in progress. Hang on!"
-    )
-    return final_response
-
-
 @app.get("/recipes/random", status_code=200, response_model=ResponseModel)
 async def get_recipes_random(
     api_choice: str, settings: Annotated[Settings, Depends(get_settings)]
 ):
-    if api_choice.upper() == settings.default_backend.upper():
-        recipe = get_spoonacular_random_recipe(
-            base_url=settings.spoonacular_base_url, api_key=settings.spoonacular_api_key
-        )
-    else:
-        recipe = get_gpt4_random_recipe()
-
-    return recipe
+    get_recipes_random(api_choice, settings)
 
 
 # Valid Cuisines that an end user is allowed to send
