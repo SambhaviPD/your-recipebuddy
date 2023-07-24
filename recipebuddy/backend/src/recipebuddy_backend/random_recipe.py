@@ -1,14 +1,10 @@
 import requests
 
-from fastapi import Depends
-from typing_extensions import Annotated
-
-from .configuration import Settings, ResponseModel, get_settings
+from .configuration import ResponseModel
 
 """
 Use Spoonacular API to fetch one random recipe
 """
-API_KEY_QUERY_KEYWORD = "?apiKey="
 RANDOM_RECIPE_QUERY_KEYWORD = "/random"
 
 def get_spoonacular_random_recipe(base_url, api_key):
@@ -22,7 +18,6 @@ def get_spoonacular_random_recipe(base_url, api_key):
         message=f"Successfully returned a random recipe. Enjoy!",
         data=response_data,
     )
-
     return final_response
 
 
@@ -38,11 +33,11 @@ def get_gpt4_random_recipe():
     return final_response
 
 
-async def get_recipes_random(
-    api_choice: str, settings: Annotated[Settings, Depends(get_settings)]):
+def invoke_random_recipe(api_choice, settings):
     if api_choice.upper() == settings.default_backend.upper():
         recipe = get_spoonacular_random_recipe(
-            base_url=settings.spoonacular_base_url, api_key=settings.spoonacular_api_key
+            base_url=settings.spoonacular_base_url, 
+            api_key=settings.spoonacular_api_key
         )
     else:
         recipe = get_gpt4_random_recipe()

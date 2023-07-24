@@ -6,7 +6,7 @@ from fastapi import Depends, FastAPI, Query, status
 from typing_extensions import Annotated
 
 from .configuration import Settings, ResponseModel, get_settings
-from .random_recipe import get_recipes_random
+from .random_recipe import invoke_random_recipe
 
 app = FastAPI(title="Recipe Buddy")
 
@@ -24,10 +24,11 @@ async def home():
 
 
 @app.get("/recipes/random", status_code=200, response_model=ResponseModel)
-async def get_recipes_random(
+def get_random_recipe(
     api_choice: str, settings: Annotated[Settings, Depends(get_settings)]
 ):
-    get_recipes_random(api_choice, settings)
+    response = invoke_random_recipe(api_choice, settings)
+    return response
 
 
 # Valid Cuisines that an end user is allowed to send
