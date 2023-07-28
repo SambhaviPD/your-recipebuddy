@@ -19,6 +19,6 @@ def test_fetch_random_recipes_using_spoonacular():
 
 def test_fetch_random_recipes_without_using_spoonacular():
     response = client.get("/recipes/random",
-                params={"api_choice" : "random-api"})
+                params={"api_choice" : "OpenAI"})
     assert response.status_code == 200
-    assert response.json()["message"] == "GPT-4 API is work in progress. Hang on!"
+    assert response.json()["message"] == "Successfully returned a random recipe. Enjoy!"
