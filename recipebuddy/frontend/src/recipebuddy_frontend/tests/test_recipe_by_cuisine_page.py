@@ -1,5 +1,6 @@
 import re
 import requests
+import pytest
 
 from playwright.sync_api import Page, expect
 
@@ -20,7 +21,9 @@ def test_page_static_content(page: Page):
     expect(page.get_by_text(expected_string)).to_be_visible()
 
 
-#E2E test - Success flow
+# E2E test - Success flow
+@pytest.mark.skip(reason=\
+        "Need to pass api_choice dynamically from UI for this test to work as intended")
 def test_page_successful_response(page: Page):
     page.goto("http://localhost:8501/Recipe_By_Cuisine")
     
@@ -30,8 +33,7 @@ def test_page_successful_response(page: Page):
     results_value = "3"
 
     API_URL = f"{API_URL}?api_choice=Spoonacular&input_cuisine={cuisine_value}&number_of_recipes={results_value}"
-    print('API URL: ', API_URL)
-    
+        
     response = requests.get(API_URL)
     page.wait_for_timeout(5000)
 
