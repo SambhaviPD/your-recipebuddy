@@ -1,7 +1,6 @@
-import os
-import openai
 import requests
 
+from .common import get_recipe_using_openai
 from .configuration import ResponseModel
 
 """
@@ -29,20 +28,13 @@ Use GPT-4 API to fetch one random recipe
 
 
 def get_gpt4_random_recipe(api_key):
-    openai.api_key = api_key
     prompt = "Write a Recipe with your own choice of Ingredients. \
         Mention Cooking time and clear instructions on how to cook \
         along with the cuisine of your recipe"
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        max_tokens=2048
-    )
-    final_response = ResponseModel(
-        success=True, \
-        message="Successfully returned a random recipe. Enjoy!", \
-        data=response
-    )
+    success_message="Successfully returned a random recipe. Enjoy!"
+    final_response = get_recipe_using_openai(api_key=api_key, \
+                                       prompt=prompt, \
+                                        success_message=success_message)
     return final_response
 
 
