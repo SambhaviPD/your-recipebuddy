@@ -1,3 +1,5 @@
+import os
+import openai
 import requests
 
 from .configuration import ResponseModel
@@ -26,9 +28,20 @@ Use GPT-4 API to fetch one random recipe
 """
 
 
-def get_gpt4_random_recipe():
+def get_gpt4_random_recipe(api_key):
+    openai.api_key = api_key
+    prompt = "Write a Recipe with your own choice of Ingredients. \
+        Mention Cooking time and clear instructions on how to cook \
+        along with the cuisine of your recipe"
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        max_tokens=2048
+    )
     final_response = ResponseModel(
-        success=True, message=f"GPT-4 API is work in progress. Hang on!"
+        success=True, \
+        message="Successfully returned a random recipe. Enjoy!", \
+        data=response
     )
     return final_response
 
@@ -40,6 +53,8 @@ def invoke_random_recipe(api_choice, settings):
             api_key=settings.spoonacular_api_key
         )
     else:
-        recipe = get_gpt4_random_recipe()
+        recipe = get_gpt4_random_recipe(
+            api_key=settings.openai_api_key
+        )
 
     return recipe

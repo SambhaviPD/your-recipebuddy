@@ -1,6 +1,11 @@
 name: Build and Test
 
 on:
+  workflow_dispatch:
+    inputs:
+      parameter_name:
+        description: 'Optional input parameter'
+        required: false
   push:
     branches: [main]
   pull_request:
@@ -12,6 +17,7 @@ jobs:
     env:
       SPOONACULAR_BASE_URL: ${{ secrets.SPOONACULAR_BASE_URL }}
       SPOONACULAR_API_KEY: ${{ secrets.SPOONACULAR_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
