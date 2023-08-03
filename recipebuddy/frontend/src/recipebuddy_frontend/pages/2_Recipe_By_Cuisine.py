@@ -9,14 +9,19 @@ st.set_page_config(page_title="By Cuisine", page_icon="🥘")
 st.markdown("### Choose your favorite Cuisine")
 
 cuisine_option = st.selectbox(    
-    "Pick one to start with:",
-    ("Chinese", "Continental", "Indian", "Sushi", "Thai"),
+    "Choose a Cuisine:",
+    ("African", "Asian", "American", "British", "Cajun", \
+     "Caribbean", "Chinese", "Eastern European", "European", \
+     "French", "German", "Greek", "Indian", "Irish", "Italian", \
+     "Japanese", "Jewish", "Korean", "Latin American", "Mediterranean", \
+     "Mexican", "Middle Eastern", "Nordic", "Southern", "Spanish", \
+     "Thai", "Vietnamese"),
     key="cuisine_selectbox"
 )
 
 number_of_recipes =st.selectbox(
     "How many recipes do you want to see?",
-    (1,2,3,4,5),
+    (1,2,3),
     key="results_selectbox"
 )
 
