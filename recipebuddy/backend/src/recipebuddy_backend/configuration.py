@@ -8,12 +8,6 @@ cfd = pathlib.Path(__file__).parent.parent.absolute()
 env_path = cfd / ".env"
 
 class Settings(BaseSettings):
-    # Until we provide the user an option to choose
-    # between AI and non-AI, we default to Spoonacular
-    default_backend: str = "OpenAI"
-
-    spoonacular_base_url: str 
-    spoonacular_api_key: str
     openai_api_key: str
 
     class Config:
