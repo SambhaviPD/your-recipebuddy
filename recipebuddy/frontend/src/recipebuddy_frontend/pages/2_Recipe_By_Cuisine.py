@@ -29,7 +29,7 @@ with st.form("recipebycuisine_form"):
     submitted = st.form_submit_button("Fetch Recipe!")
 
     if submitted:
-        API_URL = f"{API_URL}?api_choice=Spoonacular&input_cuisine={cuisine_option}&number_of_recipes={number_of_recipes}"
+        API_URL = f"{API_URL}?input_cuisine={cuisine_option}&number_of_recipes={number_of_recipes}"
         response = requests.get(API_URL)
         output = response.json()
         st.write(output["message"])
