@@ -18,7 +18,6 @@ with st.form("surpriseme_form"):
 
     if submitted:
         API_URL = f"{API_URL}"
-        print('API_URL', API_URL)
         response = requests.get(API_URL)
         output = response.json()
         st.write(output["message"])
