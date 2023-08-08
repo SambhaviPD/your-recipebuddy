@@ -51,8 +51,9 @@ def get_recipes_by_ingredients(
 def get_recipes_by_mealcourse(
     settings: Annotated[Settings, Depends(get_settings)],
     mealcourse: str,
+    input_cuisine: str,
     number_of_recipes: int = 1
 ):
     response = invoke_recipes_by_mealcourse(settings, \
-                    mealcourse, number_of_recipes)
+                    mealcourse, input_cuisine, number_of_recipes)
     return response

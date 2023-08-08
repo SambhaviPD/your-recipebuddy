@@ -17,7 +17,8 @@ with st.form("surpriseme_form"):
     submitted = st.form_submit_button("Surprise me!")
 
     if submitted:
-        API_URL = f"{API_URL}?api_choice=Spoonacular"
+        API_URL = f"{API_URL}"
+        print('API_URL', API_URL)
         response = requests.get(API_URL)
         output = response.json()
         st.write(output["message"])
