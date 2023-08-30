@@ -20,7 +20,8 @@ with st.form("surpriseme_form"):
         API_URL = f"{API_URL}"
         response = requests.get(API_URL)
         output = response.json()
-        st.write(output["message"])
-        st.write(output["data"])
+        html_response = (output["data"]["choices"][0]["message"]["content"])
+        st.components.v1.html(html_response, height=1000)
+        
 
 
